@@ -1,5 +1,5 @@
-import react from 'react'
-import {Veew} from 'react-native'
+import React from 'react'
+import {View} from 'react-native'
 
 export default function List() {
 

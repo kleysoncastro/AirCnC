@@ -1,9 +1,13 @@
-import react from 'react'
-import {Veew} from 'react-native'
+import React from 'react'
+import {View, Text} from 'react-native'
 
 export default function Login() {
 
-return <View />
+return <View>
+
+    <Text>Hello word</Text>
+
+</View>
 
 
 }// fim login
