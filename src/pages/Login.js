@@ -1,9 +1,41 @@
-import React from 'react'
-import {View, KeyboardAvoidingView, StyleSheet, Image, Text, TextInput, TouchableOpacity} from 'react-native'
+import React, {useState, useEffect} from 'react'
+import {View, KeyboardAvoidingView, AsyncStorage, StyleSheet, Image, Text, TextInput, TouchableOpacity} from 'react-native'
 
 import logo from '../assets/logo.png'
+import api from '../services/api'
 
-export default function Login() {
+export default function Login({navigation}) {
+
+    const [email, setEmail] = useState('')
+    const [techs, setTechs] = useState('')
+
+
+    useEffect(() => {
+        AsyncStorage.getItem('user').then(user => {
+            if(user) {
+                navigation.navigate('List')
+            } 
+        })
+    }, []);
+
+
+    // navigation tem mesma funcao do history
+    async function handleSubmit() {
+
+       const response = await api.post('/sessions', {
+
+        email
+
+       })
+
+       const {_id} = response.data;
+       
+       await AsyncStorage.setItem('user', _id)
+       await AsyncStorage.setItem('techs', techs)
+
+       navigation.navigate('List');
+
+    }// fim hadleSubmit
 
 return (
         
@@ -19,7 +51,11 @@ return (
                 placeholderTextColor="#999"
                 keyboardType="email-address"
                 autoCapitalize="none"
-                autoCorrect={false} />
+                autoCorrect={false} 
+                value={email}
+                onChangeText={setEmail}
+
+                />
 
 
 
@@ -30,9 +66,13 @@ return (
             placeholder="Tecnologias de interesse"
             placeholderTextColor="#999"
             autoCapitalize="words"
-            autoCorrect={false} />
+            autoCorrect={false} 
+            value={techs}
+            onChangeText={setTechs}
+            
+            />
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity onPress={handleSubmit} style={styles.button}>
 
                 <Text style={styles.buttonText}>Encontrar spots</Text>
             </TouchableOpacity>
@@ -88,7 +128,7 @@ const styles =  StyleSheet.create({
     button: {
 
         height: 42,
-        backgroundColor: '#f05a5b',
+       
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 4
