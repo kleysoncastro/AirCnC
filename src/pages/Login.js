@@ -128,10 +128,10 @@ const styles =  StyleSheet.create({
     button: {
 
         height: 42,
-       
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 4
+        borderRadius: 4,
+        backgroundColor: 'red'
     },
 
     buttonText: {
